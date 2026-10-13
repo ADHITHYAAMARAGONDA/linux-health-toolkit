@@ -49,7 +49,8 @@ class Config:
 def check_disk(cfg):
     findings = []
     for part in psutil.disk_partitions(all=False):
-        if part.fstype in ('squashfs', 'iso9660'):
+        read_only = 'ro' in part.opts.split(',')
+        if part.fstype in ('squashfs', 'iso9660') or read_only:
             continue
         try:
             usage = psutil.disk_usage(part.mountpoint)
