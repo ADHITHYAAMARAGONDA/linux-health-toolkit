@@ -1,0 +1,13 @@
+[Unit]
+Description=Server health check
+
+[Service]
+Type=oneshot
+DynamicUser=yes
+StateDirectory=healthcheck
+EnvironmentFile=/etc/healthcheck/healthcheck.env
+ExecStart=/opt/healthcheck/venv/bin/python /opt/healthcheck/healthcheck.py
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
