@@ -1,0 +1,64 @@
+- name: Deploy health check toolkit
+  hosts: all
+  become: true
+  vars:
+    app_dir: /opt/healthcheck
+    discord_webhook_url: ''
+  tasks:
+    - name: Install system packages
+      ansible.builtin.apt:
+        name: python3-venv
+        state: present
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Create app and config directories
+      ansible.builtin.file:
+        path: '{{ item }}'
+        state: directory
+        mode: '0755'
+      loop:
+        - '{{ app_dir }}'
+        - /etc/healthcheck
+
+    - name: Copy script and requirements
+      ansible.builtin.copy:
+        src: '../healthcheck/{{ item }}'
+        dest: '{{ app_dir }}/{{ item }}'
+        mode: '0644'
+      loop:
+        - healthcheck.py
+        - requirements.txt
+
+    - name: Install Python dependencies in a venv
+      ansible.builtin.pip:
+        requirements: '{{ app_dir }}/requirements.txt'
+        virtualenv: '{{ app_dir }}/venv'
+        virtualenv_command: python3 -m venv
+
+    - name: Write environment file with the secret
+      ansible.builtin.copy:
+        dest: /etc/healthcheck/healthcheck.env
+        mode: '0600'
+        content: |
+          DISCORD_WEBHOOK_URL={{ discord_webhook_url }}
+          DISK_THRESHOLD_PCT=80
+          MEM_THRESHOLD_PCT=85
+          STATE_FILE=/var/lib/healthcheck/state.json
+      no_log: true
+
+    - name: Install systemd units
+      ansible.builtin.copy:
+        src: '../systemd/{{ item }}'
+        dest: '/etc/systemd/system/{{ item }}'
+        mode: '0644'
+      loop:
+        - healthcheck.service
+        - healthcheck.timer
+
+    - name: Enable and start the timer
+      ansible.builtin.systemd:
+        name: healthcheck.timer
+        enabled: true
+        state: started
+        daemon_reload: true
