@@ -2,7 +2,7 @@ import pathlib
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / 'healthcheck'))
-from healthcheck import Finding, reconcile  # noqa: E402
+from healthcheck import Finding, reconcile
 
 
 def test_new_issue_alerts():
@@ -26,4 +26,6 @@ def test_repeat_after_cooldown_alerts_again():
 def test_resolved_when_issue_clears():
     state = {'disk:/': {'first_seen': 1000, 'last_alert': 1000}}
     alerts, resolved = reconcile([], state, 3600, 2000)
-    assert resolved == ['disk:/'] and state == {}
+    assert alerts == []
+    assert resolved == ['disk:/']
+    assert state == {}

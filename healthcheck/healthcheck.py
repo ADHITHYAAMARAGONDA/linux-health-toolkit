@@ -78,7 +78,7 @@ def check_load(cfg):
 
 
 def _systemctl(*args):
-    return subprocess.run(['systemctl', *args], capture_output=True, text=True, timeout=15)
+    return subprocess.run(['systemctl', *args], check=False, capture_output=True, text=True, timeout=15)
 
 
 def check_failed_units(cfg):

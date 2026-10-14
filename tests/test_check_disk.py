@@ -3,7 +3,7 @@ import sys
 from types import SimpleNamespace
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / 'healthcheck'))
-import healthcheck as hc  # noqa: E402
+import healthcheck as hc
 
 
 def test_read_only_mounts_are_ignored(monkeypatch):

@@ -1,0 +1,23 @@
+name: CI
+on:
+  push:
+  pull_request:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install -r healthcheck/requirements.txt ruff pytest ansible-lint
+      - name: Lint Python
+        run: ruff check .
+      - name: Unit tests
+        run: pytest -q
+      - name: Lint shell scripts
+        run: sudo apt-get install -y shellcheck && shellcheck scripts/*.sh
+      - name: Lint Ansible
+        run: ansible-lint ansible/playbook.yml
