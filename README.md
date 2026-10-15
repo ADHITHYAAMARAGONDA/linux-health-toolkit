@@ -1,5 +1,4 @@
-# linux-health-toolkit
-Linux server health monitoring with Discord alerts, systemd, Ansible and CI
+ 
 # Linux Server Health & Automation Toolkit
 
 [![CI](https://github.com/ADHITHYAAMARAGONDA/linux-health-toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/ADHITHYAAMARAGONDA/linux-health-toolkit/actions/workflows/ci.yml)
