@@ -155,7 +155,7 @@ Each check returns a list of findings, and each finding has a stable key such as
 - **Issue disappeared:** send a green RECOVERED message and forget it.
 - **Discord unreachable:** exit non-zero and do **not** save state, so the alert is retried on the next run instead of being lost.
 
-State is written to a temporary file and renamed into place, so a crash mid-write can't leave a corrupt state file. A missing or unreadable state file is treated as empty.
+State is written to a temporary file and renamed into place, so a crash mid-write can't leave a corrupt state file. A missing or corrupt is treated as empty.
 
 `reconcile()` is a pure function with no network or filesystem access. That is why it is the part with the most unit tests.
 
