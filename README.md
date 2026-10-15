@@ -209,7 +209,7 @@ GitHub Actions runs the same four tools on every push and pull request. If a lin
 
 Everything below was captured from a real run.
 
-**Discord alert, then recovery.** I stopped a failing systemd unit's cause and re-ran the check. The red message fires once, and the green one follows when the unit is cleared.
+**Discord alert, then recovery.** The alert fired for a failed systemd unit (`systemd-binfmt.service`). Once the unit was no longer failed, the next run sent a green RECOVERED message for it.
 
 ![Discord alert and recovery](docs/images/03-discord-alert.png)
 
