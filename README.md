@@ -315,6 +315,3 @@ linux-health-toolkit/
 
 MIT. See [LICENSE](LICENSE).
 
-## Author
-
-Amaragonda Adhithya, DevOps intern. Built to learn Linux, Python and automation properly by shipping something small that works end to end.
